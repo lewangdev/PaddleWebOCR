@@ -1,0 +1,32 @@
+FROM centos:centos7
+
+MAINTAINER Le Wang <lewang.dev@gmail.com>
+
+RUN mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+COPY Centos-7.repo /etc/yum.repos.d/CentOS-Base.repo
+RUN sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo
+COPY epel-7.repo /etc/yum.repos.d/epel.repo
+
+WORKDIR /root
+
+RUN yum install -y \
+        wget \
+	gmp-devel \
+	mpfr-devel \
+	libmpc-devel \
+	gcc \
+	gcc-c++ \
+	make \
+	automake \
+	autoconf \
+	libtool
+
+ARG GCC_VERSION=8.2.0
+
+RUN wget --no-check-certificate https://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz && \
+	tar zxvf gcc-${GCC_VERSION}.tar.gz && \
+	mkdir gcc-${GCC_VERSION}-build && \
+	cd gcc-${GCC_VERSION}-build && \
+	../gcc-${GCC_VERSION}/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/gcc-${GCC_VERSION} && \
+	make -j$(nproc) && make install && \
+	cd .. && rm -rf gcc-${GCC_VERSION} gcc-${GCC_VERSION}.tar.bz2 gcc-${GCC_VERSION}-build
