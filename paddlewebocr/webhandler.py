@@ -20,25 +20,32 @@ logger = logging.getLogger(log.LOGGER_ROOT_NAME + '.' + __name__)
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
-OCR = {
-	"ch_PP-OCRv2_xx": PaddleOCR(lang="ch", det_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_det_infer", cls_model_dir=BASE_PATH+"/inference/ch_ppocr_mobile_v2.0_cls_infer",
-			rec_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_rec_infer", use_gpu=False, total_process_num=os.cpu_count(), use_mp=True),
+OCR = {"ch_PP-OCRv2_xx": PaddleOCR(lang="ch",
+                                   det_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_det_infer",
+                                   cls_model_dir=BASE_PATH+"/inference/ch_ppocr_mobile_v2.0_cls_infer",
+                                   rec_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_rec_infer",
+                                   use_gpu=False, total_process_num=os.cpu_count(), use_mp=True),
+       "ch_ppocr_mobile_v2.0_xx":  PaddleOCR(lang="ch",
+                                             det_model_dir=BASE_PATH + "/inference/ch_PP-OCRv2_det_infer",
+                                             cls_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_cls_infer",
+                                             rec_model_dir=BASE_PATH + "/inference/ch_PP-OCRv2_rec_infer",
+                                             use_gpu=False, total_process_num=os.cpu_count(), use_mp=True),
+       "ch_ppocr_server_v2.0_xx":  PaddleOCR(lang="ch",
+                                             det_model_dir=BASE_PATH + "/inference/ch_ppocr_server_v2.0_det_infer",
+                                             cls_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_cls_infer",
+                                             rec_model_dir=BASE_PATH + "/inference/ch_ppocr_server_v2.0_rec_infer", 
+                                             use_gpu=False, total_process_num=os.cpu_count(), use_mp=True)
+       }
 
-	"ch_ppocr_mobile_v2.0_xx" :  PaddleOCR(lang="ch", det_model_dir=BASE_PATH + "/inference/ch_PP-OCRv2_det_infer", cls_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_cls_infer",
-			rec_model_dir=BASE_PATH + "/inference/ch_PP-OCRv2_rec_infer", use_gpu=False, total_process_num=os.cpu_count(), use_mp=True),
 
-	"ch_ppocr_server_v2.0_xx" :  PaddleOCR(lang="ch", det_model_dir=BASE_PATH + "/inference/ch_ppocr_server_v2.0_det_infer", cls_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_cls_infer",
-			rec_model_dir=BASE_PATH + "/inference/ch_ppocr_server_v2.0_rec_infer", use_gpu=False, total_process_num=os.cpu_count(), use_mp=True)  
-}
-
-class Index(tornado.web.RequestHandler):
+class IndexHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
-        self.render(os.path.join(BASE_PATH, 'dist/TrWebOcr_fontend/index.html'))
+        self.render(os.path.join(BASE_PATH, 'dist/index.html'))
 
 
-class PpocrRun(tornado.web.RequestHandler):
+class OcrHandler(tornado.web.RequestHandler):
     def get(self):
         self.set_status(404)
         self.write("404 : Please use POST")
@@ -58,7 +65,7 @@ class PpocrRun(tornado.web.RequestHandler):
         compress_size = self.get_argument('compress', None)
         ocr_model = self.get_argument('ocr_model', 'ch_ppocr_mobile_v2.0_xx')
 
-        # 判断是上传的图片还是base64
+        # 判断是上传的图片还是 base64
         self.set_header('content-type', 'application/json')
         up_image_type = None
         if img_upload is not None and len(img_upload) > 0:
@@ -71,8 +78,10 @@ class PpocrRun(tornado.web.RequestHandler):
             img = Image.open(BytesIO(raw_image))
         else:
             self.set_status(400)
-            logger.error(json.dumps({'code': 400, 'msg': '没有传入参数'}, cls=MyEncoder))
-            self.finish(json.dumps({'code': 400, 'msg': '没有传入参数'}, cls=MyEncoder))
+            logger.error(json.dumps(
+                {'code': 400, 'msg': '没有传入参数'}, cls=MyEncoder))
+            self.finish(json.dumps(
+                {'code': 400, 'msg': '没有传入参数'}, cls=MyEncoder))
             return
 
         try:
@@ -87,7 +96,8 @@ class PpocrRun(tornado.web.RequestHandler):
                     elif exif[orientation] == 8:
                         img = img.rotate(90, expand=True)
         except Exception as ex:
-            error_log = json.dumps({'code': 400, 'msg': '产生了一点错误，请检查日志', 'err': str(ex)}, cls=MyEncoder)
+            error_log = json.dumps(
+                {'code': 400, 'msg': '产生了一点错误，请检查日志', 'err': str(ex)}, cls=MyEncoder)
             logger.error(error_log, exc_info=True)
             self.finish(error_log)
             return
@@ -104,7 +114,8 @@ class PpocrRun(tornado.web.RequestHandler):
                 compress_size = int(compress_size)
             except ValueError as ex:
                 logger.error(exc_info=True)
-                self.finish(json.dumps({'code': 400, 'msg': 'compress参数类型有误，只能是int类型'}, cls=MyEncoder))
+                self.finish(json.dumps(
+                    {'code': 400, 'msg': 'compress参数类型有误，只能是int类型'}, cls=MyEncoder))
                 return
 
             if compress_size < 1:
@@ -130,8 +141,9 @@ class PpocrRun(tornado.web.RequestHandler):
         for line in res:
             points = [tuple(point) for point in line[0]]
             points.append(points[0])
-            #img_draw.polygon(points, outline=colors[random.randint(0, len(colors) - 1)])
-            img_draw.line(points, width=4, fill=colors[random.randint(0, len(colors) - 1)])
+            # img_draw.polygon(points, outline=colors[random.randint(0, len(colors) - 1)])
+            img_draw.line(points, width=4,
+                          fill=colors[random.randint(0, len(colors) - 1)])
 
         output_buffer = BytesIO()
         img_detected.save(output_buffer, format='JPEG')
@@ -146,8 +158,8 @@ class PpocrRun(tornado.web.RequestHandler):
         logger.info(json.dumps(log_info, cls=MyEncoder, ensure_ascii=False))
         self.finish(json.dumps(
             {'code': 200, 'msg': '成功',
-             'data': {'img_detected': 'data:image/jpeg;base64,' + img_detected_b64, 'raw_out': list(map(lambda x: [x[0], x[1][0], x[1][1]], res)),
+             'data': {'img_detected': 'data:image/jpeg;base64,' + img_detected_b64,
+                      'raw_out': list(map(lambda x: [x[0], x[1][0], x[1][1]], res)),
                       'speed_time': round(time.time() - start_time, 2)}},
             cls=MyEncoder, ensure_ascii=False))
         return
-
