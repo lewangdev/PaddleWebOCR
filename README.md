@@ -64,12 +64,12 @@ python paddlewebocr/main.py [--port=8080]
 ./build-docker-image.sh
 
 # 运行镜像
-docker run -itd --rm -p 8080:8080 -v ${PWD}/logs:/app/logs --name paddlewebocr paddlewebocr:latest 
+docker run -d -p 8080:8080 -v ${PWD}/logs:/app/logs --name paddlewebocr paddlewebocr:latest 
 ```  
 
 ```shell script
 # 或者从 DockerHub pull 运行镜像
-docker run -itd --rm -p 8080:8080 -v ${PWD}/logs:/app/logs --name paddlewebocr lewangdev/paddlewebocr:latest
+docker run -d -p 8080:8080 -v ${PWD}/logs:/app/logs --name paddlewebocr lewangdev/paddlewebocr:latest
 ```  
   
 
