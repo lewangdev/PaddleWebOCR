@@ -7,7 +7,7 @@
 本项目主要的代码都是来源于 [TrWebOCR](https://github.com/alisen39/TrWebOCR)，由于 TrWebOCR 启动时需要联网并且它使用的 [Tr](https://github.com/myhub/tr) 相关的资料比较少，故而尝试使用 [paddlepaddle](https://github.com/PaddlePaddle/Paddle) 和 [paddleocr](https://github.com/PaddlePaddle/PaddleOCR) 来替换 Tr， 从而有了本项目。
 
 
-**由于使用了开源的 PaddleOCR 并内置了多个模型，所以可以在离线环境下运行，并且可以很多资料便于自行训练模型。PaddleOCR 本身支持中文简体繁体，英文，韩文等等多种语言，本项目只内置了中英文（简体中文）的模型，如需要识别其它语言，可以参考本项目调整模型。**
+**由于使用了开源的 PaddleOCR 并内置了多个模型，所以可以在离线环境下运行，并且相关资料丰富便于自行训练模型。PaddleOCR 本身支持中文简体繁体，英文，韩文等等多种语言，本项目只内置了中英文（简体中文）的模型，如需要识别其它语言，可以参考本项目调整模型。**
 
 
 ![web页面](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/webui.png?raw=true)  
