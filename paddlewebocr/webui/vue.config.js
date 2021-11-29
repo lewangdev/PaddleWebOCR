@@ -1,6 +1,6 @@
 module.exports = {
   // publicPath :'/vue/'
-  outputDir: '../dist',
+  outputDir: 'dist',
   // productionSourceMap: true,
   configureWebpack: {
     devtool: 'source-map'
