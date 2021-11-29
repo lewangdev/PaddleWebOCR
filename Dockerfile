@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY requirements.txt requirements.txt
 
-RUN yum install -y gcc-c++ mesa-libGL && pip install -i https://mirror.baidu.com/pypi/simple/  \
+RUN pip install -i https://mirror.baidu.com/pypi/simple/  \
         --no-cache-dir \
         -r requirements.txt
 

@@ -1,14 +1,10 @@
-FROM gcc:8.2.0 as gccbuilder
 FROM centos:centos7
-
-COPY --from=gccbuilder /usr/local/gcc-8.2.0 /usr/local/gcc-8.2.0
 
 ARG PYTHON_VERSION=3.7.9
 
 RUN mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 COPY Centos-7.repo /etc/yum.repos.d/CentOS-Base.repo
 RUN sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo
-
 COPY epel-7.repo /etc/yum.repos.d/epel.repo
 
 RUN yum install -y \
@@ -26,10 +22,8 @@ RUN yum install -y \
         db4-devel \
         libpcap-devel \
         xz-devel \
-	gmp-devel \
-	mpfr-devel \
-	libmpc-devel \
 	gcc \
+	gcc-c++ \
 	make \
         curl \
 	vim \
