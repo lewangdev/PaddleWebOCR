@@ -20,12 +20,18 @@ logger = logging.getLogger(log.LOGGER_ROOT_NAME + '.' + __name__)
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
-OCR = {"ch_PP-OCRv2_xx": PaddleOCR(lang="ch",
+OCR = {
+       "chinese_cht_mobile_v2.0": PaddleOCR(lang="chinese_cht",
+                                   det_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_det_infer",
+                                   cls_model_dir=BASE_PATH+"/inference/ch_ppocr_mobile_v2.0_cls_infer",
+                                   rec_model_dir=BASE_PATH + "/inference/chinese_cht_mobile_v2.0_rec_infer",
+                                   use_gpu=False, total_process_num=os.cpu_count(), use_mp=True),
+       "ch_ppocr_mobile_v2.0_xx": PaddleOCR(lang="ch",
                                    det_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_det_infer",
                                    cls_model_dir=BASE_PATH+"/inference/ch_ppocr_mobile_v2.0_cls_infer",
                                    rec_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_rec_infer",
                                    use_gpu=False, total_process_num=os.cpu_count(), use_mp=True),
-       "ch_ppocr_mobile_v2.0_xx":  PaddleOCR(lang="ch",
+       "ch_PP-OCRv2_xx":  PaddleOCR(lang="ch",
                                              det_model_dir=BASE_PATH + "/inference/ch_PP-OCRv2_det_infer",
                                              cls_model_dir=BASE_PATH + "/inference/ch_ppocr_mobile_v2.0_cls_infer",
                                              rec_model_dir=BASE_PATH + "/inference/ch_PP-OCRv2_rec_infer",

@@ -45,6 +45,9 @@
                  <a-select-option value="ch_ppocr_server_v2.0_xx">
                    ch_ppocr_server_v2.0_xx
                  </a-select-option>
+                 <a-select-option value="chinese_cht_mobile_v2.0">
+		   chinese_cht_mobile_v2.0
+                 </a-select-option>
                 </a-select>
               </p>
               <p>
