@@ -14,10 +14,6 @@ An opensource offline multi-languages OCR system shipped with RESTful api and we
 
 ## 特性
 
-* paddle 2.2.0
-* paddleocr 2.3.0.2
-* 中英文识别，可选用不同的模型快速识别
-* 文字检测
 * 中文简体/繁体，英语等多语种识别
 
 ## 安装需求  
@@ -25,11 +21,12 @@ An opensource offline multi-languages OCR system shipped with RESTful api and we
 ### 运行平台  
 
 * ✔ Python 3.7+  
+* ✔ Windows 10
 * ✔ CentOS 7   
 * ✔ MacOS Big Sur 
 * ✔ Docker   
 
-CentOS 和 MacOS 系统下可以直接部署使用，目前只构建了 paddlepaddle 的 CPU 版本，不支持 GPU。也过通过构建 Docker 镜像或者直接从 DockerHub 拉去镜像来使用。
+Windows、CentOS 和 MacOS 系统下在安装好依赖之后可以直接运行，目前只构建了 paddlepaddle 的 CPU 版本，不支持 GPU。也过通过构建 Docker 镜像或者直接从 DockerHub 拉去镜像来使用。
 
 ### 最低配置要求  
 
@@ -40,7 +37,15 @@ CentOS 和 MacOS 系统下可以直接部署使用，目前只构建了 paddlepa
 
 ### 服务器部署
 
-1. 安装python3.7  
+0. 安装好 nodejs 之后进入 webui 目录
+
+```
+cd webui
+npm install
+npm run build
+```
+
+1. 安装 python 3.7  
     
 2. 安装依赖包  
 
