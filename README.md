@@ -124,8 +124,7 @@ res = requests.post(url=url, data={'img': img_b64})
 
 ## 更新记录  
 
-* 2021年11月26日  
-    发布 1.0.0 版本，仅支持 CPU
+[查看更新记录](https://github.com/lewangdev/PaddleWebOCR/releases)
 
 
 ## 致谢
