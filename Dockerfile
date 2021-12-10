@@ -15,7 +15,7 @@ WORKDIR /app
 
 COPY requirements.txt requirements.txt
 
-RUN pip install -i https://mirror.baidu.com/pypi/simple/  \
+RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ \
         --no-cache-dir \
         -r requirements.txt
 
