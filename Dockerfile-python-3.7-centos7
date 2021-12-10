@@ -1,0 +1,43 @@
+FROM centos:centos7
+
+ARG PYTHON_VERSION=3.7.9
+
+RUN mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+COPY Centos-7.repo /etc/yum.repos.d/CentOS-Base.repo
+RUN sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo
+COPY epel-7.repo /etc/yum.repos.d/epel.repo
+
+RUN yum install -y \
+        ncurses-libs \
+        zlib-devel \
+        mesa-libGL \
+        libffi-devel  \
+        bzip2-devel \
+        openssl-devel \
+        ncurses-devel \
+        sqlite-devel \
+        readline-devel \
+        tk-devel \
+        gdbm-devel \
+        db4-devel \
+        libpcap-devel \
+        xz-devel \
+	gcc \
+	gcc-c++ \
+	make \
+        curl \
+	vim \
+	git \
+        wget && yum clean all
+
+
+ENV LANG en_US.UTF-8
+
+ENV PYENV_ROOT="/.pyenv" \
+    PATH="/.pyenv/bin:/.pyenv/shims:$PATH"
+
+RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
+        wget https://npm.taobao.org/mirrors/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz -P /.pyenv/cache/ && \
+        pyenv install ${PYTHON_VERSION} && \
+        pyenv global ${PYTHON_VERSION} && \
+        rm -rf /.pyenv/cache/Python-${PYTHON_VERSION}.tar.xz /tmp/*

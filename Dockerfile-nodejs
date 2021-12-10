@@ -1,0 +1,11 @@
+FROM node:16.13.0
+
+WORKDIR /app
+
+COPY ["paddlewebocr/webui/package.json", "paddlewebocr/webui/package-lock.json*", "./"]
+
+RUN npm install
+
+COPY paddlewebocr/webui .
+
+RUN npm run build
