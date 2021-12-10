@@ -78,7 +78,7 @@ class OcrHandler(tornado.web.RequestHandler):
         img = compress_image(img, compress_size)
 
         texts = text_ocr(img, ocr_model)
-        img_drawed = draw_rectange_on_image(img.copy(), texts)
+        img_drawed = draw_box_on_image(img.copy(), texts)
         img_drawed_b64 = convert_image_to_b64(img_drawed)
 
         log_info = {

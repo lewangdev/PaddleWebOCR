@@ -33,7 +33,7 @@ def rotate_image(img: Image):
     return img
 
 
-def draw_rectange_on_image(img: Image, texts: list):
+def draw_box_on_image(img: Image, texts: list):
     img_draw = ImageDraw.Draw(img)
     colors = ['red', 'green', 'blue', "purple"]
     for line in texts:
