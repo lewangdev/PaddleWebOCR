@@ -18,7 +18,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
-        self.render('../webui/dist/index.html')
+        self.render(os.path.join("..", "webui", "dist", "index.html"))
 
 
 class OcrHandler(tornado.web.RequestHandler):

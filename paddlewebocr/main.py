@@ -17,7 +17,7 @@ logger = logging.getLogger(log.LOGGER_ROOT_NAME + '.' + __name__)
 
 current_path = os.path.dirname(__file__)
 settings = dict(
-    static_path=os.path.join(current_path, "../webui/dist")
+    static_path=os.path.join(current_path, "..", "webui", "dist")
 )
 
 
@@ -26,7 +26,7 @@ def make_app():
         (r"/api/ocr", OcrHandler),
         (r"/", IndexHandler),
         (r"/(.*)", StaticFileHandler,
-         {"path": os.path.join(current_path, "../webui/dist"), "default_filename": "index.html"}),
+         {"path": os.path.join(current_path, "..", "webui", "dist"), "default_filename": "index.html"}),
 
     ], **settings)
 
