@@ -9,7 +9,7 @@ An opensource offline multi-languages OCR system shipped with RESTful api and we
 **使用了开源的 PaddleOCR 并内置了多个模型，可以在离线环境下运行，并且相关资料丰富便于自行训练模型。PaddleOCR 本身支持中文简体繁体，英文，韩文等等多种语言，本项目只内置了中英文（简体中文和繁体中文）的模型，如需要识别其它语言，可以参考本项目调整模型。**
 
 
-![web页面](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/webui.png?raw=true)  
+![web页面](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/webui.png?raw=true)  
 
 
 ## 特性
@@ -104,23 +104,23 @@ res = requests.post(url=url, data={'img': img_b64})
 
 ## 效果展示  
 
-![英文文档识别](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/doc-1.png?raw=true)  
+![英文文档识别](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/doc-1.png?raw=true)  
 
-![中文文档识别](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/doc-2.png?raw=true)  
+![中文文档识别](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/doc-2.png?raw=true)  
 
-![验证码识别](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/verifycode-1.png?raw=true)
+![验证码识别](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/verifycode-1.png?raw=true)
 
-![验证码识别](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/verifycode-2.png?raw=true)
+![验证码识别](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/verifycode-2.png?raw=true)
 
-![火车票](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/train-ticket-1.png?raw=true)
+![火车票](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/train-ticket-1.png?raw=true)
 
-![火车票](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/train-ticket-2.png?raw=true)
+![火车票](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/train-ticket-2.png?raw=true)
 
-![发票](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/fapiao-1.png?raw=true)
+![发票](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/fapiao-1.png?raw=true)
 
-![身份证](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/idcard-1.png?raw=true)
+![身份证](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/idcard-1.png?raw=true)
 
-![海报](https://github.com/lewangdev/PaddleWebOCR/blob/master/images/haibao-1.png?raw=true)
+![海报](https://github.com/lewangdev/PaddleWebOCR/blob/main/images/haibao-1.png?raw=true)
 
 ## 更新记录  
 
