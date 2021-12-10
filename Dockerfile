@@ -19,20 +19,9 @@ RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ \
         --no-cache-dir \
         -r requirements.txt
 
-RUN mkdir -p inference && wget -P inference \
-		https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_det_infer.tar \
-		https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_rec_infer.tar \
-		https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_infer.tar \
-		https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_infer.tar \
-		https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar \
-		https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_det_infer.tar \
-		https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_infer.tar	\
-		https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/chinese_cht_mobile_v2.0_rec_infer.tar && \
-		for f in inference/*.tar; do tar xf "$f" -C inference; done && \
-		rm -rf inference/*.tar && \
-		chown -R root:root inference
-
 COPY paddlewebocr paddlewebocr
+
+RUN python paddlewebocr/ocr.py
 
 COPY --from=nodejsbuilder /app/dist webui/dist
 
