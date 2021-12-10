@@ -5,6 +5,9 @@ logs/
 dist/
 node_modules/
 
+# PaddlePaddle Models
+inference/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
