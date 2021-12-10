@@ -13,14 +13,12 @@ import log
 
 logger = logging.getLogger(log.LOGGER_ROOT_NAME + '.' + __name__)
 
-BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-
 
 class IndexHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
-        self.render(os.path.join(BASE_PATH, 'dist/index.html'))
+        self.render('../webui/dist/index.html')
 
 
 class OcrHandler(tornado.web.RequestHandler):
@@ -79,20 +77,20 @@ class OcrHandler(tornado.web.RequestHandler):
         img = img.convert("RGB")
         img = compress_image(img, compress_size)
 
-        rects = text_ocr(img, ocr_model)
-        img_drawed = draw_rectange_on_image(img.copy(), rects)
-        img_drawed_b64 = convert_image_b64(img_drawed)
+        texts = text_ocr(img, ocr_model)
+        img_drawed = draw_rectange_on_image(img.copy(), texts)
+        img_drawed_b64 = convert_image_to_b64(img_drawed)
 
         log_info = {
             'ip': self.request.host,
-            'rects': rects,
+            'texts': texts,
             'time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         logger.info(json.dumps(log_info, cls=MyEncoder, ensure_ascii=False))
         self.finish(json.dumps(
             {'code': 200, 'msg': '成功',
              'data': {'img_detected': 'data:image/jpeg;base64,' + img_drawed_b64,
-                      'raw_out': list(map(lambda x: [x[0], x[1][0], x[1][1]], rects)),
+                      'raw_out': list(map(lambda x: [x[0], x[1][0], x[1][1]], texts)),
                       'speed_time': round(time.time() - start_time, 2)}},
             cls=MyEncoder, ensure_ascii=False))
         return

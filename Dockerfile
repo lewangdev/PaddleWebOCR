@@ -21,7 +21,7 @@ RUN pip install -i https://mirror.baidu.com/pypi/simple/  \
 
 COPY paddlewebocr paddlewebocr
 
-COPY --from=nodejsbuilder /app/dist paddlewebocr/dist
+COPY --from=nodejsbuilder /app/dist webui/dist
 
 COPY docker-entrypoint.sh /usr/local/bin/
 

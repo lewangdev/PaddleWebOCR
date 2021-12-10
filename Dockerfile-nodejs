@@ -2,10 +2,10 @@ FROM node:16.13.0
 
 WORKDIR /app
 
-COPY ["paddlewebocr/webui/package.json", "paddlewebocr/webui/package-lock.json*", "./"]
+COPY ["webui/package.json", "webui/package-lock.json*", "./"]
 
 RUN npm install
 
-COPY paddlewebocr/webui .
+COPY webui .
 
 RUN npm run build

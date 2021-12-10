@@ -33,10 +33,10 @@ def rotate_image(img: Image):
     return img
 
 
-def draw_rectange_on_image(img: Image, rects: list):
+def draw_rectange_on_image(img: Image, texts: list):
     img_draw = ImageDraw.Draw(img)
     colors = ['red', 'green', 'blue', "purple"]
-    for line in rects:
+    for line in texts:
         points = [tuple(point) for point in line[0]]
         points.append(points[0])
         # img_draw.polygon(points, outline=colors[random.randint(0, len(colors) - 1)])
@@ -54,7 +54,7 @@ def b64encode(bytes_data: bytes):
     return base64.b64encode(bytes_data).decode('utf8')
 
 
-def convert_image_b64(img: Image):
+def convert_image_to_b64(img: Image):
     return b64encode(convert_image_to_bytes(img))
 
 

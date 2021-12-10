@@ -1,6 +1,9 @@
 # LOG
 logs/
 
+# Visual Code
+.vscode/
+
 # Node
 dist/
 node_modules/
