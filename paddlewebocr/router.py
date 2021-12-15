@@ -1,9 +1,19 @@
 import time
 import json
-from fastapi import APIRouter, File, UploadFile, Form, Response, HTTPException
-from jsonencoder import NumpyEncoder
+import orjson
+from typing import Any
+from fastapi import APIRouter, File, UploadFile, Form, Response, status
+from fastapi.responses import ORJSONResponse
 from util import *
 from ocr import text_ocr
+
+
+class MyORJSONResponse(ORJSONResponse):
+    media_type = "application/json"
+
+    def render(self, content: Any) -> bytes:
+        return orjson.dumps(content, option=orjson.OPT_SERIALIZE_NUMPY)
+
 
 router = APIRouter()
 
@@ -20,7 +30,8 @@ async def ocr(img_upload: UploadFile = File(None),
     elif img_b64 is not None:
         img = convert_b64_to_image(img_b64)
     else:
-        return Response(media_type="application/json", status_code=400,
+        return Response(media_type="application/json",
+                        status_code=status.HTTP_400_BAD_REQUEST,
                         content=json.dumps(dict(code=4001, msg='没有传入参数')))
 
     img = rotate_image(img)
@@ -35,5 +46,4 @@ async def ocr(img_upload: UploadFile = File(None),
             'data': {'img_detected': 'data:image/jpeg;base64,' + img_drawed_b64,
                      'raw_out': list(map(lambda x: [x[0], x[1][0], x[1][1]], texts)),
                      'speed_time': round(time.time() - start_time, 2)}}
-    json_str = json.dumps(data, cls=NumpyEncoder, ensure_ascii=False).encode('utf-8')
-    return Response(media_type="application/json", content=json_str)
+    return MyORJSONResponse(content=data)
