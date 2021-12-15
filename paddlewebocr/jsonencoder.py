@@ -2,7 +2,7 @@ import json
 import numpy
 
 
-class MyEncoder(json.JSONEncoder):
+class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, numpy.integer):
             return int(obj)
@@ -11,4 +11,4 @@ class MyEncoder(json.JSONEncoder):
         elif isinstance(obj, numpy.ndarray):
             return obj.tolist()
         else:
-            return super(MyEncoder, self).default(obj)
+            return super(NumpyEncoder, self).default(obj)
