@@ -188,12 +188,12 @@ export default {
 
       const formData = new FormData()
       this.fileList.forEach(file => {
-        formData.append('file', file)
+        formData.append('img_upload', file)
       })
       if (this.$data.hiddenCompressBox === true){
-        formData.append('compress',0)
+        formData.append('compress_size',0)
       }else{
-        formData.append('compress',this.$data.comporessSize)
+        formData.append('compress_size',this.$data.comporessSize)
       }
 
       formData.append('ocr_model',this.$data.ocrModel)
