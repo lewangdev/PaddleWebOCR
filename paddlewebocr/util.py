@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 MAX_COMPRESS_SIZE = 1600
 
 
-def compress_image(img: Image, compress_size: int):
+def compress_image(img: Image, compress_size: int) -> Image:
     if compress_size is None or compress_size <= 0:
         return img
 
@@ -19,7 +19,7 @@ def compress_image(img: Image, compress_size: int):
     return img
 
 
-def rotate_image(img: Image):
+def rotate_image(img: Image) -> Image:
     if hasattr(img, '_getexif') and img._getexif() is not None:
         orientation = 274
         exif = dict(img._getexif().items())
@@ -33,7 +33,7 @@ def rotate_image(img: Image):
     return img
 
 
-def draw_box_on_image(img: Image, texts: list):
+def draw_box_on_image(img: Image, texts: list) -> Image:
     img_draw = ImageDraw.Draw(img)
     colors = ['red', 'green', 'blue', "purple"]
     for line in texts:
@@ -44,23 +44,23 @@ def draw_box_on_image(img: Image, texts: list):
     return img
 
 
-def convert_image_to_bytes(img: Image):
+def convert_image_to_bytes(img: Image) -> bytes:
     img_byte = BytesIO()
     img.save(img_byte, format='JPEG')
     return img_byte.getvalue()
 
 
-def b64encode(bytes_data: bytes):
+def b64encode(bytes_data: bytes) -> str:
     return base64.b64encode(bytes_data).decode('utf8')
 
 
-def convert_image_to_b64(img: Image):
+def convert_image_to_b64(img: Image) -> str:
     return b64encode(convert_image_to_bytes(img))
 
 
-def convert_bytes_to_image(bytes_data: bytes):
+def convert_bytes_to_image(bytes_data: bytes) -> Image:
     return Image.open(BytesIO(bytes_data))
 
 
-def convert_b64_to_image(b64_data: str):
+def convert_b64_to_image(b64_data: str) -> Image:
     return Image.open(BytesIO(base64.b64decode(b64_data.encode('utf8'))))

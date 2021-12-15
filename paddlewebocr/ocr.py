@@ -28,6 +28,6 @@ OCR = {
 }
 
 
-def text_ocr(img: Image, ocr_model: str):
+def text_ocr(img: Image, ocr_model: str) -> list:
     ocr = OCR.get(ocr_model, OCR["ch_ppocr_mobile_v2.0_xx"])
     return ocr.ocr(np.array(img), cls=False)

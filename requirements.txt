@@ -1,3 +1,5 @@
 paddlepaddle==2.2.0
 paddleocr==2.3.0.2
-tornado==6.0.2
+fastapi
+python-multipart
+uvicorn
