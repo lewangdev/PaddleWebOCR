@@ -5,6 +5,7 @@ import uvicorn
 
 from router import router
 
+
 app = FastAPI()
 app.include_router(router, prefix="/api")
 app.mount("/", StaticFiles(directory=os.path.join(".", "webui", "dist"), html=True), name="static")
