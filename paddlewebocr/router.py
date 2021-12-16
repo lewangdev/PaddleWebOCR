@@ -1,9 +1,8 @@
 import time
-import json
 import orjson
 from typing import Any
-from fastapi import APIRouter, File, UploadFile, Form, Response, status
-from fastapi.responses import ORJSONResponse
+from fastapi import APIRouter, File, UploadFile, Form, status
+from fastapi.responses import ORJSONResponse, JSONResponse
 from util import *
 from ocr import text_ocr
 
@@ -30,9 +29,8 @@ async def ocr(img_upload: UploadFile = File(None),
     elif img_b64 is not None:
         img = convert_b64_to_image(img_b64)
     else:
-        return Response(media_type="application/json",
-                        status_code=status.HTTP_400_BAD_REQUEST,
-                        content=json.dumps(dict(code=4001, msg='没有传入参数')))
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
+                            content={'code': 4001, 'msg': '没有传入参数'})
 
     img = rotate_image(img)
     img = img.convert("RGB")
