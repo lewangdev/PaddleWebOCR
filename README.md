@@ -57,6 +57,10 @@ pip install -r requirements.txt
 
 ``` shell script
 python paddlewebocr/main.py [--port=8080]
+
+#或者
+
+uvicorn paddlewebocr.main:app --host 0.0.0.0 --port 8080
 ```
 
 ### Docker 部署  
