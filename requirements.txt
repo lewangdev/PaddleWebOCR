@@ -3,3 +3,4 @@ paddleocr==2.3.0.2
 fastapi
 python-multipart
 uvicorn
+orjson
