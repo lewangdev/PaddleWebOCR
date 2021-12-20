@@ -56,11 +56,13 @@ pip install -r requirements.txt
 3. 运行，项目默认运行在 8080 端口：  
 
 ``` shell script
-python paddlewebocr/main.py [--port=8080]
+uvicorn paddlewebocr.main:app --host 0.0.0.0 --port 8080
+
 
 #或者
 
-uvicorn paddlewebocr.main:app --host 0.0.0.0 --port 8080
+PYTHONPATH="${PYTHONPATH}:." python paddlewebocr/main.py [--port=8080]
+
 ```
 
 ### Docker 部署  

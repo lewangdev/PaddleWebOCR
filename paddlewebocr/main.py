@@ -6,9 +6,6 @@ from loguru import logger
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
-
-MODULE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(MODULE_PATH)
 from paddlewebocr.pkg.config import settings
 from paddlewebocr.pkg.log import InterceptHandler, format_record
 from paddlewebocr.route.api import api_router
@@ -26,8 +23,6 @@ def make_app():
         handlers=[{"sink": sys.stdout, "level": logging.DEBUG, "format": format_record}]
     )
     logger.add(settings.LOG_FILE, encoding='utf-8', rotation="9:46")
-
-    print(logging.root.manager.loggerDict)
 
     loggers = (
         logging.getLogger(name)
