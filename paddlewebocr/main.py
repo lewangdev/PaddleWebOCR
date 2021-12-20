@@ -1,15 +1,36 @@
 import os
 import click
+import sys
+import logging
+from loguru import logger
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 
 from paddlewebocr.pkg.config import settings
+from paddlewebocr.pkg.log import InterceptHandler, format_record
 from paddlewebocr.route.api import api_router
 
-app = FastAPI(
-    title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json"
-)
+
+def make_app():
+    app = FastAPI(
+        title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json",
+        debug=settings.DEBUG,
+    )
+
+    logging.getLogger().handlers = [InterceptHandler()]
+
+    logger.configure(
+        handlers=[{"sink": sys.stdout, "level": logging.DEBUG, "format": format_record}]
+    )
+    logger.add(settings.LOG_FILE, encoding='utf-8', rotation="9:46")
+    logging.getLogger("uvicorn.access").handlers = [InterceptHandler()]
+    logging.getLogger("uvicorn.error").handlers = [InterceptHandler()]
+    logger.info("Starting {}", settings.PROJECT_NAME)
+    return app
+
+
+app = make_app()
 
 # Set all CORS enabled origins
 if settings.CORS_ORIGINS:

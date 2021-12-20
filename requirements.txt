@@ -4,3 +4,4 @@ fastapi
 python-multipart
 uvicorn
 orjson
+loguru

@@ -1,31 +1,37 @@
 import logging
-from logging.handlers import RotatingFileHandler
-import os
-import datetime
+from pprint import pformat
 
-BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from loguru import logger
+from loguru._defaults import LOGURU_FORMAT
 
-LOGGER_ROOT_NAME = 'paddlewebocr'
-logger = logging.getLogger(LOGGER_ROOT_NAME)
-logger.setLevel(logging.INFO)
-# Formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] | %(message)s',
-                              datefmt='%Y/%m/%d %H:%M:%S')
 
-logfile_name = datetime.date.today().__format__('%Y-%m-%d.log')
-logfile_path = os.path.join(BASE_PATH, f'logs/')
-if not os.path.exists(logfile_path):
-    os.mkdir(logfile_path)
+class InterceptHandler(logging.Handler):
+    def emit(self, record):
+        # Get corresponding Loguru level if it exists
+        try:
+            level = logger.level(record.levelname).name
+        except ValueError:
+            level = record.levelno
 
-handler_logfile = RotatingFileHandler(logfile_path + logfile_name,
-                                      maxBytes=1 * 1024 * 1024,
-                                      backupCount=3)
-handler_logfile.setLevel(logging.INFO)
-handler_logfile.setFormatter(formatter)
+        # Find caller from where originated the logged message
+        frame, depth = logging.currentframe(), 2
+        while frame.f_code.co_filename == logging.__file__:
+            frame = frame.f_back
+            depth += 1
 
-console_output = logging.StreamHandler()
-console_output.setLevel(logging.INFO)
-console_output.setFormatter(formatter)
+        logger.opt(depth=depth, exception=record.exc_info).log(
+            level, record.getMessage()
+        )
 
-logger.addHandler(handler_logfile)
-logger.addHandler(console_output)
+
+def format_record(record: dict) -> str:
+    format_string = LOGURU_FORMAT
+
+    if record["extra"].get("payload") is not None:
+        record["extra"]["payload"] = pformat(
+            record["extra"]["payload"], indent=4, compact=True, width=88
+        )
+        format_string += "\n<level>{extra[payload]}</level>"
+
+    format_string += "{exception}\n"
+    return format_string

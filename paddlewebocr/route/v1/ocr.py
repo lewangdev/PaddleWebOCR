@@ -6,9 +6,6 @@ from fastapi import APIRouter, File, UploadFile, Form, status
 from fastapi.responses import ORJSONResponse, JSONResponse
 from paddlewebocr.pkg.util import *
 from paddlewebocr.pkg.ocr import text_ocr
-from paddlewebocr.pkg.log import LOGGER_ROOT_NAME
-
-LOGGER = logging.getLogger(LOGGER_ROOT_NAME + '.' + __name__)
 
 
 class MyORJSONResponse(ORJSONResponse):
