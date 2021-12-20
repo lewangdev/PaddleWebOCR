@@ -1,13 +1,27 @@
 import os
+import click
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-import click
+from starlette.middleware.cors import CORSMiddleware
 
-from router import router
+from paddlewebocr.pkg.config import settings
+from paddlewebocr.route.api import api_router
 
-app = FastAPI()
+app = FastAPI(
+    title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json"
+)
 
-app.include_router(router, prefix="/api")
+# Set all CORS enabled origins
+if settings.CORS_ORIGINS:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[str(origin) for origin in settings.CORS_ORIGINS],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+app.include_router(api_router, prefix=settings.API_V1_STR)
 app.mount("/", StaticFiles(directory=os.path.join(".", "webui", "dist"), html=True), name="static")
 
 
