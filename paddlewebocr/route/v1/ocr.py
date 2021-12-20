@@ -1,10 +1,11 @@
 import time
 import orjson
+import logging
 from typing import Any
 from fastapi import APIRouter, File, UploadFile, Form, status
 from fastapi.responses import ORJSONResponse, JSONResponse
-from util import *
-from ocr import text_ocr
+from paddlewebocr.pkg.util import *
+from paddlewebocr.pkg.ocr import text_ocr
 
 
 class MyORJSONResponse(ORJSONResponse):
@@ -17,7 +18,7 @@ class MyORJSONResponse(ORJSONResponse):
 router = APIRouter()
 
 
-@router.post('/ocr', tags=['ocr'])
+@router.post('/ocr')
 async def ocr(img_upload: UploadFile = File(None),
               img_b64: str = Form(None),
               compress_size: int = Form(None),
