@@ -21,7 +21,7 @@ RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ \
 
 COPY paddlewebocr paddlewebocr
 
-RUN python paddlewebocr/ocr.py
+RUN python paddlewebocr/pkg/ocr.py
 
 COPY --from=nodejsbuilder /app/dist webui/dist
 
@@ -33,4 +33,4 @@ EXPOSE 8080
 
 VOLUME /app/logs
 
-CMD ["python", "paddlewebocr/main.py"]
+CMD ["uvicorn", "paddlewebocr.main:app", "--host", "0.0.0.0", "--port", "8080"]

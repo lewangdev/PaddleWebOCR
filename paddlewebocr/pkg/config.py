@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "PaddleWebOCR"
     CORS_ORIGINS: List[AnyHttpUrl] = []
     DEBUG: bool = False
-    LOG_FILE: str = "log/info.log"
+    LOG_FILE: str = "logs/info.log"
 
     class Config:
         case_sensitive = True
