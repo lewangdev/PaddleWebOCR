@@ -21,7 +21,7 @@ An opensource offline multi-languages OCR system shipped with RESTful api and we
 ### 运行平台  
 
 * ✔ Python 3.7+  
-* ✔ Windows 10
+* ✔ Windows 10/11
 * ✔ CentOS 7   
 * ✔ MacOS Big Sur 
 * ✔ Docker   
